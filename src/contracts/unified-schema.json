@@ -1,0 +1,757 @@
+{
+  "$schema": "./schemas/unified-schema.schema.json",
+  "contractVersion": "2.0.0",
+  "version": "2024-11-25",
+  "label": "AGI CLI Unified AI Task Schema",
+  "description": "Comprehensive schema for all AI tasks, providers, tools, and capabilities - single source of truth",
+
+  "providers": [
+    {
+      "id": "anthropic",
+      "label": "Anthropic",
+      "description": "Anthropic Claude models - state of the art reasoning and coding",
+      "baseUrl": "https://api.anthropic.com",
+      "apiVersion": "2023-06-01",
+      "envVars": {
+        "apiKey": "ANTHROPIC_API_KEY"
+      },
+      "capabilities": ["chat", "reasoning", "tools", "streaming", "vision", "prompt_caching"],
+      "rateLimiting": {
+        "maxRetries": 4,
+        "baseDelayMs": 750,
+        "maxDelayMs": 40000,
+        "backoffMultiplier": 2
+      },
+      "models": ["claude-opus-4-5-20251101", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001"],
+      "defaultModel": "claude-sonnet-4-5-20250929",
+      "status": "production"
+    },
+    {
+      "id": "openai",
+      "label": "OpenAI",
+      "description": "OpenAI GPT models including reasoning and coding variants",
+      "baseUrl": "https://api.openai.com/v1",
+      "envVars": {
+        "apiKey": "OPENAI_API_KEY"
+      },
+      "capabilities": ["chat", "reasoning", "tools", "streaming", "vision"],
+      "apiVariants": ["chat_completions", "responses"],
+      "models": ["gpt-4o", "gpt-4o-mini", "o1", "o1-mini", "o1-pro", "o3", "o3-pro", "gpt-4-turbo"],
+      "defaultModel": "gpt-4o",
+      "reasoningModels": ["o1", "o1-mini", "o1-pro", "o3", "o3-pro"],
+      "status": "production"
+    },
+    {
+      "id": "google",
+      "label": "Google AI",
+      "description": "Google Gemini models with multimodal capabilities",
+      "baseUrl": "https://generativelanguage.googleapis.com",
+      "envVars": {
+        "apiKey": "GEMINI_API_KEY"
+      },
+      "capabilities": ["chat", "reasoning", "tools", "streaming", "multimodal", "vision"],
+      "models": ["gemini-2.0-flash-exp", "gemini-1.5-pro", "gemini-1.5-flash"],
+      "defaultModel": "gemini-2.0-flash-exp",
+      "status": "production"
+    },
+    {
+      "id": "deepseek",
+      "label": "DeepSeek",
+      "description": "DeepSeek reasoning and coding models",
+      "baseUrl": "https://api.deepseek.com",
+      "envVars": {
+        "apiKey": "DEEPSEEK_API_KEY"
+      },
+      "capabilities": ["chat", "reasoning", "tools", "streaming"],
+      "openaiCompatible": true,
+      "models": ["deepseek-reasoner", "deepseek-chat"],
+      "defaultModel": "deepseek-reasoner",
+      "status": "production"
+    },
+    {
+      "id": "xai",
+      "label": "xAI",
+      "description": "xAI Grok models for coding and reasoning",
+      "baseUrl": "https://api.x.ai/v1",
+      "envVars": {
+        "apiKey": "XAI_API_KEY"
+      },
+      "capabilities": ["chat", "reasoning", "tools", "streaming"],
+      "openaiCompatible": true,
+      "models": ["grok-beta", "grok-2"],
+      "defaultModel": "grok-beta",
+      "status": "production"
+    },
+    {
+      "id": "ollama",
+      "label": "Ollama (Local)",
+      "description": "Run open-weight models locally via Ollama",
+      "baseUrl": "http://localhost:11434/v1",
+      "envVars": {
+        "baseUrl": "OLLAMA_BASE_URL"
+      },
+      "capabilities": ["chat", "tools", "streaming"],
+      "openaiCompatible": true,
+      "models": ["llama3.1:8b", "llama3.2:3b", "qwen2.5:7b", "mistral:7b", "codellama:7b"],
+      "defaultModel": "llama3.1:8b",
+      "status": "production"
+    },
+    {
+      "id": "mistral",
+      "label": "Mistral AI",
+      "description": "Mistral AI models",
+      "baseUrl": "https://api.mistral.ai/v1",
+      "envVars": {
+        "apiKey": "MISTRAL_API_KEY"
+      },
+      "capabilities": ["chat", "tools", "streaming"],
+      "openaiCompatible": true,
+      "models": ["mistral-large-latest", "mistral-medium-latest", "codestral-latest"],
+      "defaultModel": "mistral-large-latest",
+      "status": "production"
+    },
+    {
+      "id": "groq",
+      "label": "Groq",
+      "description": "Groq ultra-fast inference for open models",
+      "baseUrl": "https://api.groq.com/openai/v1",
+      "envVars": {
+        "apiKey": "GROQ_API_KEY"
+      },
+      "capabilities": ["chat", "tools", "streaming"],
+      "openaiCompatible": true,
+      "models": ["llama-3.1-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"],
+      "defaultModel": "llama-3.1-70b-versatile",
+      "status": "production"
+    },
+    {
+      "id": "together",
+      "label": "Together AI",
+      "description": "Together AI inference platform",
+      "baseUrl": "https://api.together.xyz/v1",
+      "envVars": {
+        "apiKey": "TOGETHER_API_KEY"
+      },
+      "capabilities": ["chat", "tools", "streaming"],
+      "openaiCompatible": true,
+      "models": ["meta-llama/Llama-3-70b-chat-hf", "mistralai/Mixtral-8x7B-Instruct-v0.1"],
+      "defaultModel": "meta-llama/Llama-3-70b-chat-hf",
+      "status": "production"
+    },
+    {
+      "id": "fireworks",
+      "label": "Fireworks AI",
+      "description": "Fireworks AI inference platform",
+      "baseUrl": "https://api.fireworks.ai/inference/v1",
+      "envVars": {
+        "apiKey": "FIREWORKS_API_KEY"
+      },
+      "capabilities": ["chat", "tools", "streaming"],
+      "openaiCompatible": true,
+      "models": ["accounts/fireworks/models/llama-v3p1-70b-instruct"],
+      "defaultModel": "accounts/fireworks/models/llama-v3p1-70b-instruct",
+      "status": "production"
+    },
+    {
+      "id": "azure_openai",
+      "label": "Azure OpenAI",
+      "description": "OpenAI models hosted on Azure",
+      "envVars": {
+        "apiKey": "AZURE_OPENAI_API_KEY",
+        "endpoint": "AZURE_OPENAI_ENDPOINT",
+        "deploymentId": "AZURE_OPENAI_DEPLOYMENT"
+      },
+      "capabilities": ["chat", "tools", "streaming", "vision"],
+      "models": ["gpt-4o", "gpt-4-turbo"],
+      "defaultModel": "gpt-4o",
+      "status": "production"
+    },
+    {
+      "id": "bedrock",
+      "label": "AWS Bedrock",
+      "description": "AWS Bedrock foundation models",
+      "envVars": {
+        "accessKeyId": "AWS_ACCESS_KEY_ID",
+        "secretAccessKey": "AWS_SECRET_ACCESS_KEY",
+        "region": "AWS_REGION"
+      },
+      "capabilities": ["chat", "tools", "streaming"],
+      "models": ["anthropic.claude-3-sonnet", "anthropic.claude-3-haiku", "meta.llama3-70b-instruct-v1"],
+      "defaultModel": "anthropic.claude-3-sonnet",
+      "status": "production"
+    }
+  ],
+
+  "taskTypes": [
+    {
+      "id": "coding",
+      "label": "Code Generation & Editing",
+      "description": "Generate, edit, refactor, and analyze code",
+      "requiredCapabilities": ["chat", "tools"],
+      "preferredCapabilities": ["reasoning", "streaming"],
+      "defaultTemperature": 0.0,
+      "recommendedProviders": ["anthropic", "openai", "deepseek"],
+      "tools": ["read", "write", "edit", "bash", "glob", "grep"]
+    },
+    {
+      "id": "reasoning",
+      "label": "Complex Reasoning",
+      "description": "Multi-step reasoning, planning, and analysis",
+      "requiredCapabilities": ["chat", "reasoning"],
+      "preferredCapabilities": ["tools", "streaming"],
+      "defaultTemperature": 0.3,
+      "recommendedProviders": ["anthropic", "openai", "deepseek"],
+      "tools": ["read", "glob", "grep", "web_search", "web_fetch"]
+    },
+    {
+      "id": "chat",
+      "label": "Conversational",
+      "description": "General conversation and Q&A",
+      "requiredCapabilities": ["chat"],
+      "preferredCapabilities": ["streaming"],
+      "defaultTemperature": 0.7,
+      "recommendedProviders": ["anthropic", "openai", "google"],
+      "tools": []
+    },
+    {
+      "id": "analysis",
+      "label": "Code Analysis",
+      "description": "Analyze code quality, security, dependencies",
+      "requiredCapabilities": ["chat", "tools"],
+      "preferredCapabilities": ["reasoning"],
+      "defaultTemperature": 0.0,
+      "recommendedProviders": ["anthropic", "openai"],
+      "tools": ["read", "glob", "grep", "analyze_complexity", "dependency_audit", "code_security_scan"]
+    },
+    {
+      "id": "research",
+      "label": "Research & Information",
+      "description": "Research topics, gather information",
+      "requiredCapabilities": ["chat"],
+      "preferredCapabilities": ["tools", "streaming"],
+      "defaultTemperature": 0.5,
+      "recommendedProviders": ["anthropic", "openai", "google"],
+      "tools": ["web_search", "web_fetch", "read"]
+    },
+    {
+      "id": "multimodal",
+      "label": "Vision & Multimodal",
+      "description": "Process images, documents, and mixed content",
+      "requiredCapabilities": ["chat", "multimodal"],
+      "preferredCapabilities": ["vision", "streaming"],
+      "defaultTemperature": 0.3,
+      "recommendedProviders": ["google", "anthropic", "openai"],
+      "tools": ["read", "write"]
+    },
+    {
+      "id": "testing",
+      "label": "Test Generation",
+      "description": "Generate and run tests",
+      "requiredCapabilities": ["chat", "tools"],
+      "preferredCapabilities": ["reasoning"],
+      "defaultTemperature": 0.0,
+      "recommendedProviders": ["anthropic", "openai"],
+      "tools": ["read", "write", "edit", "bash", "generate_test_stub"]
+    },
+    {
+      "id": "documentation",
+      "label": "Documentation",
+      "description": "Generate documentation and comments",
+      "requiredCapabilities": ["chat", "tools"],
+      "preferredCapabilities": ["streaming"],
+      "defaultTemperature": 0.3,
+      "recommendedProviders": ["anthropic", "openai"],
+      "tools": ["read", "write", "edit", "generate_docstring"]
+    },
+    {
+      "id": "security",
+      "label": "Security Analysis",
+      "description": "Security auditing and vulnerability analysis",
+      "requiredCapabilities": ["chat", "tools", "reasoning"],
+      "preferredCapabilities": ["streaming"],
+      "defaultTemperature": 0.0,
+      "recommendedProviders": ["anthropic", "openai"],
+      "tools": ["read", "glob", "grep", "dependency_audit", "code_security_scan", "analyze_attack_surface"],
+      "requiresAuth": true
+    },
+    {
+      "id": "competitive_rl",
+      "label": "Competitive RL (Alpha Zero 2)",
+      "description": "Competitive multi-agent reinforcement learning for code optimization",
+      "requiredCapabilities": ["chat", "tools", "reasoning"],
+      "preferredCapabilities": ["streaming"],
+      "defaultTemperature": 0.2,
+      "recommendedProviders": ["anthropic", "openai"],
+      "tools": ["alpha_zero_evaluate", "alpha_zero_tournament", "alpha_zero_introspect", "alpha_zero_metrics"]
+    }
+  ],
+
+  "toolCategories": [
+    {
+      "id": "core",
+      "label": "Core Tools",
+      "description": "Essential tools always available",
+      "alwaysEnabled": true,
+      "tools": ["read", "write", "edit", "bash", "glob", "grep"]
+    },
+    {
+      "id": "web",
+      "label": "Web Tools",
+      "description": "Web search and fetch capabilities",
+      "alwaysEnabled": false,
+      "tools": ["web_search", "web_fetch"]
+    },
+    {
+      "id": "coding",
+      "label": "Enhanced Coding",
+      "description": "Advanced code analysis and generation",
+      "alwaysEnabled": false,
+      "tools": ["analyze_complexity", "find_dependencies", "generate_docstring", "suggest_refactorings", "generate_test_stub"]
+    },
+    {
+      "id": "security",
+      "label": "Security Research",
+      "description": "Security analysis and auditing",
+      "alwaysEnabled": false,
+      "requiresAuth": true,
+      "tools": ["dependency_audit", "code_security_scan", "analyze_attack_surface"]
+    },
+    {
+      "id": "alpha_zero",
+      "label": "Alpha Zero 2",
+      "description": "Competitive RL framework",
+      "alwaysEnabled": false,
+      "tools": ["alpha_zero_evaluate", "alpha_zero_tournament", "alpha_zero_introspect", "alpha_zero_history", "alpha_zero_metrics"]
+    },
+    {
+      "id": "mcp",
+      "label": "Model Context Protocol",
+      "description": "MCP server integration",
+      "alwaysEnabled": false,
+      "tools": []
+    },
+    {
+      "id": "intelligence",
+      "label": "Code Intelligence",
+      "description": "Automated code analysis, refactoring, documentation, and test generation",
+      "alwaysEnabled": false,
+      "tools": ["intelligence_analyze", "intelligence_refactor", "intelligence_document", "intelligence_test", "intelligence_full"]
+    }
+  ],
+
+  "tools": [
+    {
+      "id": "read",
+      "name": "Read",
+      "description": "Read file contents from the filesystem",
+      "category": "core",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "file_path": {"type": "string", "description": "Absolute path to the file"},
+          "offset": {"type": "number", "description": "Line number to start from"},
+          "limit": {"type": "number", "description": "Number of lines to read"}
+        },
+        "required": ["file_path"]
+      }
+    },
+    {
+      "id": "write",
+      "name": "Write",
+      "description": "Write content to a file",
+      "category": "core",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "file_path": {"type": "string", "description": "Absolute path to the file"},
+          "content": {"type": "string", "description": "Content to write"}
+        },
+        "required": ["file_path", "content"]
+      }
+    },
+    {
+      "id": "edit",
+      "name": "Edit",
+      "description": "Performs exact string replacements in files. Use empty old_string to create a file and empty new_string to delete matched text.",
+      "category": "core",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "file_path": {"type": "string", "description": "Absolute path to the file to modify or create"},
+          "old_string": {"type": "string", "description": "Exact text to replace. Use empty string to create a new file."},
+          "new_string": {"type": "string", "description": "Replacement text. Use empty string to delete the match. Defaults to empty when omitted."},
+          "replace_all": {"type": "boolean", "description": "Replace all occurrences instead of enforcing uniqueness"}
+        },
+        "required": ["file_path", "old_string"]
+      }
+    },
+    {
+      "id": "bash",
+      "name": "Bash",
+      "description": "Execute shell commands",
+      "category": "core",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {"type": "string", "description": "Command to execute"},
+          "timeout": {"type": "number", "description": "Timeout in milliseconds"},
+          "description": {"type": "string", "description": "What this command does"}
+        },
+        "required": ["command"]
+      }
+    },
+    {
+      "id": "glob",
+      "name": "Glob",
+      "description": "Find files matching a pattern",
+      "category": "core",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "pattern": {"type": "string", "description": "Glob pattern to match"},
+          "path": {"type": "string", "description": "Directory to search in"}
+        },
+        "required": ["pattern"]
+      }
+    },
+    {
+      "id": "grep",
+      "name": "Grep",
+      "description": "Search file contents with regex",
+      "category": "core",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "pattern": {"type": "string", "description": "Regex pattern to search for"},
+          "path": {"type": "string", "description": "File or directory to search"},
+          "output_mode": {"type": "string", "enum": ["content", "files_with_matches", "count"]}
+        },
+        "required": ["pattern"]
+      }
+    },
+    {
+      "id": "web_search",
+      "name": "WebSearch",
+      "description": "Search the web for information",
+      "category": "web",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {"type": "string", "description": "Search query"}
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "id": "web_fetch",
+      "name": "WebFetch",
+      "description": "Fetch and analyze web page content",
+      "category": "web",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "url": {"type": "string", "description": "URL to fetch"},
+          "prompt": {"type": "string", "description": "What to extract from the page"}
+        },
+        "required": ["url", "prompt"]
+      }
+    },
+    {
+      "id": "analyze_complexity",
+      "name": "AnalyzeComplexity",
+      "description": "Analyze code complexity metrics",
+      "category": "coding",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to analyze"},
+          "language": {"type": "string", "description": "Programming language"}
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "id": "find_dependencies",
+      "name": "FindDependencies",
+      "description": "Find imports and dependencies in code",
+      "category": "coding",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to analyze"},
+          "language": {"type": "string", "description": "Programming language"}
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "id": "generate_docstring",
+      "name": "GenerateDocstring",
+      "description": "Generate documentation for code",
+      "category": "coding",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to document"},
+          "style": {"type": "string", "enum": ["google", "numpy", "sphinx", "jsdoc"]}
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "id": "suggest_refactorings",
+      "name": "SuggestRefactorings",
+      "description": "Suggest code refactoring improvements",
+      "category": "coding",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to analyze"},
+          "focus": {"type": "array", "items": {"type": "string"}}
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "id": "generate_test_stub",
+      "name": "GenerateTestStub",
+      "description": "Generate test stubs for code",
+      "category": "coding",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to test"},
+          "framework": {"type": "string", "description": "Test framework"}
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "id": "dependency_audit",
+      "name": "DependencyAudit",
+      "description": "Audit dependencies for vulnerabilities",
+      "category": "security",
+      "cacheable": true,
+      "requiresAuth": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "packageFile": {"type": "string", "description": "Path to package file"},
+          "severityThreshold": {"type": "string", "enum": ["critical", "high", "medium", "low"]}
+        },
+        "required": ["packageFile"]
+      }
+    },
+    {
+      "id": "code_security_scan",
+      "name": "CodeSecurityScan",
+      "description": "Scan code for security vulnerabilities",
+      "category": "security",
+      "cacheable": true,
+      "requiresAuth": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to scan"},
+          "language": {"type": "string", "description": "Programming language"}
+        },
+        "required": ["code", "language"]
+      }
+    },
+    {
+      "id": "analyze_attack_surface",
+      "name": "AnalyzeAttackSurface",
+      "description": "Analyze code attack surface",
+      "category": "security",
+      "cacheable": true,
+      "requiresAuth": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to analyze"},
+          "context": {"type": "string", "enum": ["web_app", "api", "cli", "library"]}
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "id": "alpha_zero_evaluate",
+      "name": "AlphaZeroEvaluate",
+      "description": "Evaluate code quality with Alpha Zero 2 metrics",
+      "category": "alpha_zero",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "description": "Code to evaluate"}
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "id": "alpha_zero_tournament",
+      "name": "AlphaZeroTournament",
+      "description": "Run a competitive tournament between agents",
+      "category": "alpha_zero",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "taskPrompts": {"type": "array", "items": {"type": "string"}},
+          "numRounds": {"type": "integer"}
+        },
+        "required": ["taskPrompts"]
+      }
+    },
+    {
+      "id": "alpha_zero_introspect",
+      "name": "AlphaZeroIntrospect",
+      "description": "Analyze agent performance and get improvement suggestions",
+      "category": "alpha_zero",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "id": "alpha_zero_history",
+      "name": "AlphaZeroHistory",
+      "description": "Get historical competition data",
+      "category": "alpha_zero",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "id": "alpha_zero_metrics",
+      "name": "AlphaZeroMetrics",
+      "description": "Get comprehensive performance metrics",
+      "category": "alpha_zero",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "timeframe": {"type": "string", "enum": ["hour", "day", "week", "month", "all"]},
+          "includeTrends": {"type": "boolean"}
+        }
+      }
+    },
+    {
+      "id": "intelligence_analyze",
+      "name": "IntelligenceAnalyze",
+      "description": "Analyze codebase for issues, patterns, and metrics",
+      "category": "intelligence",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string", "description": "Path to analyze (file or directory)"},
+          "includeMetrics": {"type": "boolean", "description": "Include code quality metrics"},
+          "severity": {"type": "string", "enum": ["all", "critical", "high", "medium", "low"], "description": "Minimum severity to report"}
+        }
+      }
+    },
+    {
+      "id": "intelligence_refactor",
+      "name": "IntelligenceRefactor",
+      "description": "Find and optionally apply refactoring opportunities",
+      "category": "intelligence",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string", "description": "Path to analyze"},
+          "autoApply": {"type": "boolean", "description": "Automatically apply safe refactorings"},
+          "riskLevel": {"type": "string", "enum": ["safe", "low", "medium", "all"], "description": "Maximum risk level to consider"}
+        }
+      }
+    },
+    {
+      "id": "intelligence_document",
+      "name": "IntelligenceDocument",
+      "description": "Generate documentation from code analysis",
+      "category": "intelligence",
+      "cacheable": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string", "description": "Path to document"},
+          "format": {"type": "string", "enum": ["markdown", "json", "html"], "description": "Output format"},
+          "includeArchitecture": {"type": "boolean", "description": "Include architecture analysis"}
+        }
+      }
+    },
+    {
+      "id": "intelligence_test",
+      "name": "IntelligenceTest",
+      "description": "Generate test suites from code analysis",
+      "category": "intelligence",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string", "description": "Path to generate tests for"},
+          "framework": {"type": "string", "enum": ["jest", "mocha", "vitest", "pytest"], "description": "Test framework"},
+          "includeEdgeCases": {"type": "boolean", "description": "Include edge case tests"}
+        }
+      }
+    },
+    {
+      "id": "intelligence_full",
+      "name": "IntelligenceFull",
+      "description": "Run full intelligence suite: analyze, refactor, document, and test",
+      "category": "intelligence",
+      "cacheable": false,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string", "description": "Path to analyze"},
+          "autoFix": {"type": "boolean", "description": "Automatically apply safe fixes"},
+          "outputDir": {"type": "string", "description": "Directory for output files"}
+        }
+      }
+    }
+  ],
+
+  "capabilities": [
+    {"id": "chat", "label": "Chat", "description": "Basic conversational capabilities"},
+    {"id": "reasoning", "label": "Reasoning", "description": "Extended chain-of-thought reasoning"},
+    {"id": "tools", "label": "Tool Use", "description": "Ability to call external tools"},
+    {"id": "streaming", "label": "Streaming", "description": "Support for streaming responses"},
+    {"id": "multimodal", "label": "Multimodal", "description": "Support for images and mixed content"},
+    {"id": "vision", "label": "Vision", "description": "Image understanding capabilities"},
+    {"id": "prompt_caching", "label": "Prompt Caching", "description": "Cache repeated prompt content"}
+  ],
+
+  "defaults": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-5-20250929",
+    "temperature": 0.0,
+    "maxTokens": 4096,
+    "taskType": "coding"
+  },
+
+  "metadata": {
+    "schemaVersion": "2.0.0",
+    "lastUpdated": "2024-11-25",
+    "author": "Bo Shang",
+    "framework": "agi-cli",
+    "description": "Unified schema for all AI tasks across all providers"
+  }
+}

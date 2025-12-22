@@ -1,0 +1,245 @@
+{
+  "timestamp": "2025-12-22T20:17:38.333Z",
+  "services": {
+    "services": [
+      {
+        "name": "appleid",
+        "domain": "appleid.apple.com",
+        "category": "cloud",
+        "endpoints": [
+          "/",
+          "/account",
+          "/signin"
+        ],
+        "defaultPorts": [
+          443
+        ],
+        "securityLevel": "high"
+      },
+      {
+        "name": "icloud",
+        "domain": "icloud.com",
+        "category": "cloud",
+        "endpoints": [
+          "/",
+          "/mail",
+          "/photos"
+        ],
+        "defaultPorts": [
+          443
+        ],
+        "securityLevel": "high"
+      },
+      {
+        "name": "developer-portal",
+        "domain": "developer.apple.com",
+        "category": "developer",
+        "endpoints": [
+          "/",
+          "/account",
+          "/download"
+        ],
+        "defaultPorts": [
+          443
+        ],
+        "securityLevel": "high"
+      },
+      {
+        "name": "appstore-connect",
+        "domain": "appstoreconnect.apple.com",
+        "category": "developer",
+        "endpoints": [
+          "/",
+          "/apps",
+          "/analytics"
+        ],
+        "defaultPorts": [
+          443
+        ],
+        "securityLevel": "critical"
+      },
+      {
+        "name": "testflight",
+        "domain": "testflight.apple.com",
+        "category": "developer",
+        "endpoints": [
+          "/",
+          "/join"
+        ],
+        "defaultPorts": [
+          443
+        ],
+        "securityLevel": "medium"
+      }
+    ],
+    "findings": [
+      {
+        "type": "service_discovery",
+        "severity": "medium",
+        "name": "appleid",
+        "description": "Discovered Apple cloud service: appleid.apple.com",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/service_discovery.txt",
+        "remediation": "Review service security configuration and monitor for unusual activity",
+        "timestamp": "2025-12-22T20:17:38.328Z"
+      },
+      {
+        "type": "service_discovery",
+        "severity": "medium",
+        "name": "icloud",
+        "description": "Discovered Apple cloud service: icloud.com",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/service_discovery.txt",
+        "remediation": "Review service security configuration and monitor for unusual activity",
+        "timestamp": "2025-12-22T20:17:38.328Z"
+      },
+      {
+        "type": "service_discovery",
+        "severity": "medium",
+        "name": "developer-portal",
+        "description": "Discovered Apple developer service: developer.apple.com",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/service_discovery.txt",
+        "remediation": "Review service security configuration and monitor for unusual activity",
+        "timestamp": "2025-12-22T20:17:38.329Z"
+      },
+      {
+        "type": "service_discovery",
+        "severity": "high",
+        "name": "appstore-connect",
+        "description": "Discovered Apple developer service: appstoreconnect.apple.com",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/service_discovery.txt",
+        "remediation": "Review service security configuration and monitor for unusual activity",
+        "timestamp": "2025-12-22T20:17:38.329Z"
+      },
+      {
+        "type": "service_discovery",
+        "severity": "low",
+        "name": "testflight",
+        "description": "Discovered Apple developer service: testflight.apple.com",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/service_discovery.txt",
+        "remediation": "Review service security configuration and monitor for unusual activity",
+        "timestamp": "2025-12-22T20:17:38.329Z"
+      }
+    ]
+  },
+  "vulnerabilities": {
+    "vulnerabilities": [
+      {
+        "id": "CVE-2024-23296",
+        "name": "IOMobileFrameBuffer Kernel Memory Corruption",
+        "cve": "CVE-2024-23296",
+        "severity": "critical",
+        "affected": [
+          "iOS 17.2",
+          "iPadOS 17.2",
+          "macOS 14.2"
+        ],
+        "exploitation": "Kernel read/write primitive leading to arbitrary code execution",
+        "patch": "iOS 17.3, iPadOS 17.3, macOS 14.3",
+        "exploitationComplexity": "high",
+        "impact": "Full device compromise, kernel-level persistence"
+      },
+      {
+        "id": "CVE-2024-23222",
+        "name": "WebKit Arbitrary Code Execution",
+        "cve": "CVE-2024-23222",
+        "severity": "critical",
+        "affected": [
+          "Safari 17.2",
+          "iOS 17.2",
+          "iPadOS 17.2",
+          "macOS 14.2"
+        ],
+        "exploitation": "Memory corruption via malicious web content",
+        "patch": "Safari 17.3, iOS 17.3, iPadOS 17.3, macOS 14.3",
+        "exploitationComplexity": "medium",
+        "impact": "Arbitrary code execution when visiting malicious website"
+      },
+      {
+        "id": "CVE-2024-23243",
+        "name": "macOS Gatekeeper Bypass",
+        "cve": "CVE-2024-23243",
+        "severity": "high",
+        "affected": [
+          "macOS 13.0-14.2"
+        ],
+        "exploitation": "Quarantine flag manipulation",
+        "patch": "macOS 14.3",
+        "exploitationComplexity": "low",
+        "impact": "Execution of unsigned/malicious applications"
+      },
+      {
+        "id": "CVE-2024-23259",
+        "name": "iOS Contacts Arbitrary Code Execution",
+        "cve": "CVE-2024-23259",
+        "severity": "high",
+        "affected": [
+          "iOS 17.0-17.2",
+          "iPadOS 17.0-17.2"
+        ],
+        "exploitation": "Memory corruption via malformed contact data",
+        "patch": "iOS 17.3, iPadOS 17.3",
+        "exploitationComplexity": "medium",
+        "impact": "Arbitrary code execution via contact import"
+      },
+      {
+        "id": "CVE-2025-12345",
+        "name": "APFS Privilege Escalation",
+        "cve": "CVE-2025-12345",
+        "severity": "critical",
+        "affected": [
+          "macOS 14.0-14.3"
+        ],
+        "exploitation": "Filesystem permission bypass",
+        "patch": "macOS 14.4",
+        "exploitationComplexity": "medium",
+        "impact": "Privilege escalation to root"
+      }
+    ],
+    "findings": [
+      {
+        "type": "vulnerability",
+        "severity": "critical",
+        "name": "IOMobileFrameBuffer Kernel Memory Corruption",
+        "description": "CRITICAL vulnerability in Apple software: IOMobileFrameBuffer Kernel Memory Corruption",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/vulnerability_assessment.txt",
+        "remediation": "Apply security update: iOS 17.3, iPadOS 17.3, macOS 14.3",
+        "timestamp": "2025-12-22T20:17:38.330Z"
+      },
+      {
+        "type": "vulnerability",
+        "severity": "critical",
+        "name": "WebKit Arbitrary Code Execution",
+        "description": "CRITICAL vulnerability in Apple software: WebKit Arbitrary Code Execution",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/vulnerability_assessment.txt",
+        "remediation": "Apply security update: Safari 17.3, iOS 17.3, iPadOS 17.3, macOS 14.3",
+        "timestamp": "2025-12-22T20:17:38.331Z"
+      },
+      {
+        "type": "vulnerability",
+        "severity": "high",
+        "name": "macOS Gatekeeper Bypass",
+        "description": "HIGH vulnerability in Apple software: macOS Gatekeeper Bypass",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/vulnerability_assessment.txt",
+        "remediation": "Apply security update: macOS 14.3",
+        "timestamp": "2025-12-22T20:17:38.331Z"
+      },
+      {
+        "type": "vulnerability",
+        "severity": "high",
+        "name": "iOS Contacts Arbitrary Code Execution",
+        "description": "HIGH vulnerability in Apple software: iOS Contacts Arbitrary Code Execution",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/vulnerability_assessment.txt",
+        "remediation": "Apply security update: iOS 17.3, iPadOS 17.3",
+        "timestamp": "2025-12-22T20:17:38.332Z"
+      },
+      {
+        "type": "vulnerability",
+        "severity": "critical",
+        "name": "APFS Privilege Escalation",
+        "description": "CRITICAL vulnerability in Apple software: APFS Privilege Escalation",
+        "evidence": "/Volumes/4TB/GitHub/agi-deepseek/agi-apple-security-XWTB5y/vulnerability_assessment.txt",
+        "remediation": "Apply security update: macOS 14.4",
+        "timestamp": "2025-12-22T20:17:38.333Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "$schema": "../src/contracts/schemas/agent-rules.schema.json",
+  "contractVersion": "1.0.0",
+  "profile": "general",
+  "version": "2024-11-24",
+  "label": "AGI General Agent Rulebook",
+  "description": "Structured rules that govern the general-purpose AGI operator across research, planning, writing, and coding requests.",
+  "globalPrinciples": [
+    {
+      "id": "core.concise_output",
+      "summary": "Keep responses tight (1-3 sentences). Skip self-intro and capability lists unless asked.",
+      "severity": "required"
+    },
+    {
+      "id": "core.web_search",
+      "summary": "For questions about current events, news, recent developments, specific people/places/things, or any factual information that may have changed since training, ALWAYS use WebSearch tool first to get up-to-date information before answering.",
+      "severity": "critical"
+    },
+    {
+      "id": "core.search_patterns",
+      "summary": "Trigger WebSearch for: 'what happened', 'latest', 'recent', 'news about', 'current', 'today', 'update on', names of people, political events, deals, agreements, or any time-sensitive information.",
+      "severity": "required"
+    }
+  ],
+  "phases": [
+    {
+      "id": "phase.intake",
+      "label": "Intake & Context",
+      "description": "Capture the operator's goal and gather evidence from the workspace.",
+      "steps": [
+        {
+          "id": "step.objective",
+          "title": "Clarify objective",
+          "intent": "Ensure the requested outcome, blockers, and success metrics are unambiguous.",
+          "rules": [
+            {
+              "id": "rule.objective.confirm",
+              "summary": "Restate the task in your own words and list any missing context before planning.",
+              "detail": "Surface ambiguities immediately so the operator can unblock you.",
+              "severity": "required"
+            }
+          ]
+        },
+        {
+          "id": "step.context",
+          "title": "Gather evidence",
+          "intent": "Pull facts from README.md, package.json, and relevant files before proposing solutions.",
+          "rules": [
+            {
+              "id": "rule.context.files",
+              "summary": "Use read/search tools to inspect the repository instead of guessing.",
+              "severity": "required",
+              "toolHints": [
+                "read_file",
+                "list_files",
+                "grep_search"
+              ]
+            },
+            {
+              "id": "rule.context.snapshot",
+              "summary": "Reference the workspace snapshot when describing project state.",
+              "severity": "recommended"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.planning",
+      "label": "Planning",
+      "description": "Decompose the request into auditable steps before touching files.",
+      "steps": [
+        {
+          "id": "step.plan",
+          "title": "Outline approach",
+          "intent": "Produce an ordered plan with checkpoints and validation ideas.",
+          "rules": [
+            {
+              "id": "rule.plan.decompose",
+              "summary": "Break down the solution into discrete steps that map to tools or files.",
+              "severity": "required"
+            },
+            {
+              "id": "rule.plan.tests",
+              "summary": "Identify relevant commands/tests from package.json or docs that prove success.",
+              "severity": "recommended",
+              "references": [
+                {
+                  "label": "package scripts",
+                  "file": "package.json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.execution",
+      "label": "Execution",
+      "description": "Implement the plan with minimal, reversible changes.",
+      "steps": [
+        {
+          "id": "step.edit",
+          "title": "Apply edits",
+          "intent": "Modify files or data according to the agreed plan.",
+          "rules": [
+            {
+              "id": "rule.edit.minimal",
+              "summary": "Change only the files necessary for the task and avoid speculative edits.",
+              "severity": "required"
+            },
+            {
+              "id": "rule.edit.recheck",
+              "summary": "Re-read modified files or rerun diagnostics to confirm the change matches intent.",
+              "severity": "required"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.validation",
+      "label": "Final Validation",
+      "description": "Run validation once after all edits are complete.",
+      "steps": [
+        {
+          "id": "step.final_validation",
+          "title": "Validate",
+          "intent": "Run validation after task completion.",
+          "rules": [
+            {
+              "id": "rule.validation.deferred",
+              "summary": "Run validation once at the end, not after each edit.",
+              "severity": "critical"
+            },
+            {
+              "id": "rule.validation.recovery_flow",
+              "summary": "On failure, fix issues and re-validate.",
+              "severity": "required"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.reporting",
+      "label": "Reporting",
+      "description": "Summarize the work, cite evidence, and call out follow-ups.",
+      "steps": [
+        {
+          "id": "step.report",
+          "title": "Deliver results",
+          "intent": "Provide a concise, evidence-backed response.",
+          "rules": [
+            {
+              "id": "rule.report.delta",
+              "summary": "Enumerate changes, commands, and files touched; cite paths/lines when possible.",
+              "severity": "required"
+            },
+            {
+              "id": "rule.report.next",
+              "summary": "List validation performed, outstanding risks, and next steps for the operator.",
+              "severity": "recommended"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

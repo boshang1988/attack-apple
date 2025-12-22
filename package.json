@@ -1,0 +1,113 @@
+{
+  "name": "deepseek-coder-cli",
+  "version": "1.0.12",
+  "description": "DeepSeek AI-powered CLI agent for code assistance and automation",
+  "deepseek": {
+    "rulebookSchema": "src/contracts/schemas/agent-rules.schema.json"
+  },
+  "main": "dist/bin/deepseek.js",
+  "exports": {
+    ".": "./dist/bin/deepseek.js",
+    "./lean": "./dist/leanAgent.js",
+    "./capabilities": "./dist/capabilities/index.js",
+    "./security": "./dist/core/universalSecurityAudit.js",
+    "./orchestration": "./dist/orchestration/index.js"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "agents",
+    "LICENSE"
+  ],
+  "bin": {
+    "deepseek": "dist/bin/deepseek.js",
+    "erosolar": "dist/bin/erosolar.js",
+    "lean": "dist/bin/lean.js"
+  },
+  "scripts": {
+    "postinstall": "node -e \"const fs=require('fs');['dist/bin/deepseek.js','dist/bin/erosolar.js','dist/bin/lean.js'].forEach(f=>{try{fs.chmodSync(f,0o755)}catch{}})\"",
+    "prebuild": "npm run clean",
+    "clean": "node -e \"const { rmSync } = require('fs'); for (const target of ['dist', '.tsbuildinfo']) { try { rmSync(target, { recursive: true, force: true, maxRetries: 10 }); } catch (error) { console.warn('Clean warning:', error.code, 'for', target); } }\"",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "build:prod": "NODE_ENV=production MINIFY=true npm run build",
+    "optimize": "node scripts/optimize-build.mjs",
+    "release": "chmod +x scripts/create-release.sh && scripts/create-release.sh patch",
+    "release:minor": "chmod +x scripts/create-release.sh && scripts/create-release.sh minor",
+    "release:major": "chmod +x scripts/create-release.sh && scripts/create-release.sh major",
+    "release:cno": "chmod +x scripts/cno-unified-release-loop.sh && scripts/cno-unified-release-loop.sh",
+    "release:cno:continuous": "chmod +x scripts/cno-unified-release-loop.sh && scripts/cno-unified-release-loop.sh continuous",
+    "release:cno:patch": "chmod +x scripts/cno-unified-release-loop.sh && scripts/cno-unified-release-loop.sh patch",
+    "release:cno:minor": "chmod +x scripts/cno-unified-release-loop.sh && scripts/cno-unified-release-loop.sh minor",
+    "release:cno:major": "chmod +x scripts/cno-unified-release-loop.sh && scripts/cno-unified-release-loop.sh major",
+    "prepublishOnly": "npm run build",
+    "pretest": "npm run build",
+    "postbuild": "node scripts/postbuild.mjs",
+    "cli": "node dist/bin/deepseek.js",
+    "lean": "node dist/bin/lean.js",
+    "lean:dev": "node --loader ts-node/esm src/bin/lean.ts",
+    "dev": "node --loader ts-node/esm src/bin/deepseek.ts",
+    "dev:watch": "node --watch --loader ts-node/esm src/bin/deepseek.ts",
+    "start": "node dist/bin/deepseek.js",
+    "test": "jest --config jest.config.cjs",
+    "test:watch": "jest --config jest.config.cjs --watch",
+    "test:coverage": "jest --config jest.config.cjs --coverage",
+    "demo:chinese-cno": "npx tsx examples/chineseCnoDemo.ts",
+    "demo:max-chinese-cno": "npx tsx examples/maxChineseCnoDemo.ts",
+    "demo:cno-release": "./scripts/demo-cno-release.sh",
+    "lint": "eslint src/**/*.ts --max-warnings 200",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "agent",
+    "llm",
+    "anthropic",
+    "openai",
+    "google",
+    "deepseek",
+    "code-assistant",
+    "automation",
+    "developer-tools"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
+    "@eslint/js": "^9.39.2",
+    "@types/glob": "^8.1.0",
+    "@types/gradient-string": "^1.1.6",
+    "@types/jest": "30.0.0",
+    "@types/node": "25.0.2",
+    "@typescript-eslint/eslint-plugin": "8.49.0",
+    "@typescript-eslint/parser": "8.49.0",
+    "babel-jest": "^30.2.0",
+    "eslint": "9.39.2",
+    "eslint-plugin-import": "^2.32.0",
+    "jest": "30.2.0",
+    "ts-jest": "29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript-eslint": "^8.50.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
+    "@google/genai": "^1.33.0",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "cli-spinners": "^3.3.0",
+    "gradient-string": "^3.0.0",
+    "nanospinner": "1.2.2",
+    "nodemailer": "^6.10.0",
+    "openai": "^6.10.0",
+    "ora": "^9.0.0",
+    "typescript": "5.9.3"
+  }
+}

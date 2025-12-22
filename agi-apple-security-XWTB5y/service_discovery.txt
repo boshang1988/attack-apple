@@ -1,0 +1,13 @@
+=== Apple Service Discovery Results ===
+
+Service Categories:
+
+CLOUD (2 services):
+  • appleid.apple.com (high security)
+  • icloud.com (high security)
+
+DEVELOPER (3 services):
+  • developer.apple.com (high security)
+  • appstoreconnect.apple.com (critical security)
+  • testflight.apple.com (medium security)
+

@@ -1,0 +1,1 @@
+{"name": "中国网络作战能力统一框架演示", "version": "1.0.0", "description": "Chinese CNO Unified Framework Demo Package", "main": "enhanced-chinese-cno-demo.ts", "scripts": {"demo": "npx tsx enhanced-chinese-cno-demo.ts"}, "dependencies": {"tsx": "^4.7.0"}}
